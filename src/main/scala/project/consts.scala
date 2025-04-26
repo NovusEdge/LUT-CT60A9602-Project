@@ -1,4 +1,4 @@
-package lib;
+package project
 
 object consts {
     val API_URL = "https://data.fingrid.fi/api/datasets/"
