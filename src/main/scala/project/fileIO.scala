@@ -2,7 +2,7 @@ package project
 
 import model.EnergyData
 
-import java.io.{BufferedReader, File, FileWriter, InputStreamReader}
+import java.io._
 
 object ProjectFileIO {
     def writeDataToCSV(data: List[EnergyData], filePath: String): Unit = {
@@ -12,7 +12,7 @@ object ProjectFileIO {
         // TODO: Implement the rest of the CSV writing logic
     }
 
-    def readDataFromCSV(filePath: String): List[EnergyData] = {
+    def readDataFromCSV(filePath: String): Unit = {
         val file = new File(filePath)
         val reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))
 
