@@ -1,7 +1,6 @@
 package model
 
 import api_client.FingridApiClient
-import model.SourceType.SourceType
 import scala.util.{Failure, Success, Try}
 
 object SourceType extends Enumeration {
@@ -13,25 +12,15 @@ object SourceType extends Enumeration {
 class EnergyData(
     timestamp: String,
     sourceType: SourceType.SourceType,
-    energyData: Map[String, Double]
+    energyData: Map[String, List[Double]],
+    unit: String
 ) {
     def getTimestamp: String = timestamp
     def getSourceType: SourceType.SourceType = sourceType
-    def getEnergyData: Map[String, Double] = energyData
+    def getEnergyData: Map[String, List[Double]] = energyData
+    def getUnit: String = unit
 
     override def toString: String = {
-        s"EnergyData(timestamp=$timestamp, sourceType=$sourceType, energyData=$energyData)"
+        s"EnergyData(timestamp=$timestamp, sourceType=$sourceType, energyData=$energyData, unit=$unit)"
     }
-
-    def fetchEnergyData(): Map[String, Double] = {
-        val data = FingridApiClient.fetchEnergyData(sourceType)
-        data match {
-            case Right(json) =>
-                json.asInstanceOf[Map[String, Double]]
-            case Left(error) =>
-                println(s"Error fetching data: $error")
-                Map.empty[String, Double]
-        }
-    }
-
 }
