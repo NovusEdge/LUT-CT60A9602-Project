@@ -8,7 +8,6 @@ import scala.util.control.NonFatal
 import model.SourceType._
 import project.consts._
 import model._
-import project.Main.energyDataTypes
 
 
 object FingridApiClient {
@@ -22,8 +21,6 @@ object FingridApiClient {
         
         val jsonData = data.right.get
         val parsedJson = ujson.read(jsonData)
-
-        println(sourceType)
 
         return sourceType match {
             case Surplus => new EnergyData(
@@ -91,19 +88,73 @@ object FingridApiClient {
     }
     
 
-    def fetchData(datasetId: Int): Either[String, String] = {
-        val response = requests.get(
-                s"$API_URL$datasetId/data?format=json",
+    // def fetchData(datasetId: Int, date: String = "2025-01-01"): Either[String, String] = {
+    //     // Check if the date is in the correct format (YYYY-MM-DD)
+    //     if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+    //         return Left("Invalid date format. Please use YYYY-MM-DD.")
+    //     }
+
+    //     val response = requests.get(
+    //             s"$API_URL$datasetId/data?format=json&startTime=$date",
+    //             params = Map("X-Api-Key" -> API_KEY),
+    //         )
+        
+    //     if (response.statusCode == 429) {
+    //         println("Rate limit exceeded. Trying again...")
+    //         Thread.sleep(2000) // Wait for 2 seconds before retrying
+    //         return fetchData(datasetId, date) // Retry the request
+    //     }
+
+    //     if (response.statusCode != 200) {
+    //         return Left(s"Error: ${response.statusCode} - ${response.text()}");
+    //     }
+
+    //     Try(response.text()) match {
+    //         case Success(data) => Right(data)
+    //         case Failure(exception) => Left(s"Failed to fetch data: ${exception.getMessage}")
+    //     }
+    // }
+
+    def fetchData(datasetId: Int, date: String = "2025-01-01", retryCount: Int = 3): Either[String, String] = {
+        try {
+            // Check if the date is in the correct format (YYYY-MM-DD)
+            if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                return Left("Invalid date format. Please use YYYY-MM-DD.")
+            }
+
+            val response = requests.get(
+                s"$API_URL$datasetId/data?format=json&startTime=$date",
                 params = Map("X-Api-Key" -> API_KEY),
             )
-        
-        if (response.statusCode != 200) {
-            return Left(s"Error: ${response.statusCode} - ${response.text()}");
-        }
+            
+            try {
+                if (response.statusCode == 429) {
+                    println("Rate limit exceeded. Trying again...")
+                    Thread.sleep(2000) // Wait for 2 seconds before retrying
+                    return fetchData(datasetId, date, retryCount) // Retry the request
+                }
+            } catch {
+            case e: Exception => 
+                println(s"Error while handling rate limit: ${e.getMessage}. Retrying...")
+                Thread.sleep(2000) // Wait for 2 seconds
+                return fetchData(datasetId, date, retryCount) // Retry despite the exception
+            }
 
-        Try(response.text()) match {
-            case Success(data) => Right(data)
-            case Failure(exception) => Left(s"Failed to fetch data: ${exception.getMessage}")
+            if (response.statusCode != 200) {
+                return Left(s"Error: ${response.statusCode} - ${response.text()}")
+            }
+
+            Try(response.text()) match {
+                case Success(data) => Right(data)
+                case Failure(exception) => Left(s"Failed to fetch data: ${exception.getMessage}")
+            }
+        } catch {
+            case e: Exception if retryCount > 0 => 
+            println(s"Unexpected error: ${e.getMessage}. Retries left: ${retryCount - 1}")
+            Thread.sleep(2000)
+            fetchData(datasetId, date, retryCount - 1) // Retry on any exception
+            case e: Exception => 
+            Left(s"Failed after multiple retries: ${e.getMessage}")
         }
     }
 }

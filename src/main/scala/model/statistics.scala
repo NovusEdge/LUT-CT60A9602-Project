@@ -16,10 +16,13 @@ object Statistics {
         }
     }
 
-    def mode(values: List[Double]): List[Double] = {
-        val frequencyMap = values.groupBy(identity).mapValues(_.size)
-        val maxFrequency = frequencyMap.values.max
-        frequencyMap.filter(_._2 == maxFrequency).keys.toList
+    def mode(values: List[Double]): Double = {
+        if (values.isEmpty) 0.0
+        else {
+            val frequencyMap = values.groupBy(identity).mapValues(_.size)
+            val maxFrequency = frequencyMap.values.max
+            frequencyMap.filter(_._2 == maxFrequency).keys.head
+        }
     }
 
     def range(values: List[Double]): Double = {

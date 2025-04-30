@@ -23,4 +23,22 @@ class EnergyData(
     override def toString: String = {
         s"EnergyData(timestamp=$timestamp, sourceType=$sourceType, energyData=$energyData, unit=$unit)"
     }
+
+    def calculateStatistics: Map[String, Map[String, Double]] = {
+        energyData.map { case (key, values) =>
+            val mean = Statistics.mean(values)
+            val median = Statistics.median(values)
+            val mode = Statistics.mode(values)
+            val range = Statistics.range(values)
+            val midrange = Statistics.midrange(values)
+
+            key -> Map(
+                "Mean" -> mean,
+                "Median" -> median,
+                "Mode" -> mode,
+                "Range" -> range,
+                "Midrange" -> midrange
+            )
+        }
+    }
 }
