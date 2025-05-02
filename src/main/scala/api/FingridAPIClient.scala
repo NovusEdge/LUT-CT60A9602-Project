@@ -5,6 +5,7 @@ import ujson._
 
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
+
 import model.SourceType._
 import project.consts._
 import model._
@@ -27,9 +28,9 @@ object FingridApiClient {
                     parsedJson("data")(0)("startTime").str,
                     Surplus,
                     parsedJson("data").arr.map { item => 
-                        val eType = item("additionalJson")("ProductionType").str
+                        var eType = item("additionalJson")("ProductionType").str
                         val value = item("value").num
-                        (eType, List(value))
+                        (PROD_TYPE_MAP.getOrElse(eType, "Other Production"), List(value))
                     }.toMap,
                     "KWH"
                 )
@@ -86,38 +87,9 @@ object FingridApiClient {
         case WindCapacity => fetchData(WIND_PRODUCTION_CAPACITY_ID)
         case _ => Left("Invalid source type")
     }
-    
-
-    // def fetchData(datasetId: Int, date: String = "2025-01-01"): Either[String, String] = {
-    //     // Check if the date is in the correct format (YYYY-MM-DD)
-    //     if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
-    //         return Left("Invalid date format. Please use YYYY-MM-DD.")
-    //     }
-
-    //     val response = requests.get(
-    //             s"$API_URL$datasetId/data?format=json&startTime=$date",
-    //             params = Map("X-Api-Key" -> API_KEY),
-    //         )
-        
-    //     if (response.statusCode == 429) {
-    //         println("Rate limit exceeded. Trying again...")
-    //         Thread.sleep(2000) // Wait for 2 seconds before retrying
-    //         return fetchData(datasetId, date) // Retry the request
-    //     }
-
-    //     if (response.statusCode != 200) {
-    //         return Left(s"Error: ${response.statusCode} - ${response.text()}");
-    //     }
-
-    //     Try(response.text()) match {
-    //         case Success(data) => Right(data)
-    //         case Failure(exception) => Left(s"Failed to fetch data: ${exception.getMessage}")
-    //     }
-    // }
 
     def fetchData(datasetId: Int, date: String = "2025-01-01", retryCount: Int = 3): Either[String, String] = {
         try {
-            // Check if the date is in the correct format (YYYY-MM-DD)
             if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 return Left("Invalid date format. Please use YYYY-MM-DD.")
             }
@@ -130,14 +102,14 @@ object FingridApiClient {
             try {
                 if (response.statusCode == 429) {
                     println("Rate limit exceeded. Trying again...")
-                    Thread.sleep(2000) // Wait for 2 seconds before retrying
-                    return fetchData(datasetId, date, retryCount) // Retry the request
+                    Thread.sleep(2000)
+                    return fetchData(datasetId, date, retryCount)
                 }
             } catch {
             case e: Exception => 
                 println(s"Error while handling rate limit: ${e.getMessage}. Retrying...")
-                Thread.sleep(2000) // Wait for 2 seconds
-                return fetchData(datasetId, date, retryCount) // Retry despite the exception
+                Thread.sleep(2000)
+                return fetchData(datasetId, date, retryCount) 
             }
 
             if (response.statusCode != 200) {
@@ -152,7 +124,7 @@ object FingridApiClient {
             case e: Exception if retryCount > 0 => 
             println(s"Unexpected error: ${e.getMessage}. Retries left: ${retryCount - 1}")
             Thread.sleep(2000)
-            fetchData(datasetId, date, retryCount - 1) // Retry on any exception
+            fetchData(datasetId, date, retryCount - 1)
             case e: Exception => 
             Left(s"Failed after multiple retries: ${e.getMessage}")
         }

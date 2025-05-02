@@ -1,7 +1,0 @@
-Timestamp,SourceType,EnergyData,Unit
-2025-04-27T23:00:00.000Z,Surplus,HashMap(AV07 -> List(0.0), AV06 -> List(1262.012), AV05 -> List(0.01), AV09 -> List(277.136), AV01 -> List(7439.04), AV04 -> List(302.713), AV08 -> List(0.0), AV10 -> List(449.407), AV02 -> List(247.749)),KWH
-2025-05-01T20:45:00.000Z,Consumption,Map(Total Consumption -> List(8998.3, 9006.1, 9013.8, 9021.6, 9056.6, 9079.9, 9079.9, 9056.6, 8915.9, 8889.9)),MWh/h
-2025-05-01T20:45:00.000Z,Wind,Map(Total Wind Power Generation -> List(4766.7, 4691.5, 4616.4, 4541.3, 4328.1, 4172.0, 4012.9, 3848.6, 3664.6, 3460.3)),MWh/h
-2025-05-01T20:45:00.000Z,Solar,Map(Total Solar Power Generation -> List(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),MWh/h
-2025-04-30T11:00:00.000Z,SolarCapacity,Map(Total Solar Power Generation Capacity -> List(1265.1, 1265.1, 1265.1, 1265.1, 1265.1, 1265.1, 1265.1, 1265.1, 1265.1, 1265.1)),MW
-2025-04-30T11:00:00.000Z,WindCapacity,Map(Total Wind Power Generation Capacity -> List(8508.8, 8508.8, 8508.8, 8508.8, 8508.8, 8508.8, 8508.8, 8508.8, 8508.8, 8508.8)),MW
