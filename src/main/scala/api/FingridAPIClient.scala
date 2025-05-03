@@ -88,14 +88,10 @@ object FingridApiClient {
         case _ => Left("Invalid source type")
     }
 
-    def fetchData(datasetId: Int, date: String = "2025-01-01", retryCount: Int = 3): Either[String, String] = {
+    def fetchData(datasetId: Int, retryCount: Int = 3): Either[String, String] = {
         try {
-            if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                return Left("Invalid date format. Please use YYYY-MM-DD.")
-            }
-
             val response = requests.get(
-                s"$API_URL$datasetId/data?format=json&startTime=$date",
+                s"$API_URL$datasetId/data?format=json",
                 params = Map("X-Api-Key" -> API_KEY),
             )
             
@@ -103,13 +99,13 @@ object FingridApiClient {
                 if (response.statusCode == 429) {
                     println("Rate limit exceeded. Trying again...")
                     Thread.sleep(2000)
-                    return fetchData(datasetId, date, retryCount)
+                    return fetchData(datasetId, retryCount)
                 }
             } catch {
             case e: Exception => 
                 println(s"Error while handling rate limit: ${e.getMessage}. Retrying...")
                 Thread.sleep(2000)
-                return fetchData(datasetId, date, retryCount) 
+                return fetchData(datasetId, retryCount) 
             }
 
             if (response.statusCode != 200) {
@@ -124,7 +120,7 @@ object FingridApiClient {
             case e: Exception if retryCount > 0 => 
             println(s"Unexpected error: ${e.getMessage}. Retries left: ${retryCount - 1}")
             Thread.sleep(2000)
-            fetchData(datasetId, date, retryCount - 1)
+            fetchData(datasetId, retryCount - 1)
             case e: Exception => 
             Left(s"Failed after multiple retries: ${e.getMessage}")
         }

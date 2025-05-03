@@ -29,18 +29,9 @@ object consts {
     val MAIN_MENU = 
         """
         |1. Fetch and store data
-        |2. Retrieve stored data
+        |2. Show stored data
         |3. Display Statistics
-        |4. Exit""".stripMargin
-
-    val DATASET_MENU =
-        """
-          |1. Surplus Energy Production
-          |2. Consumption Forecast
-          |3. Wind Generation Forecast
-          |4. Solar Generation Forecast
-          |5. Solar Production Capacity
-          |6. Wind Production Capacity""".stripMargin
+        |0. Exit""".stripMargin
 
     val E_INVALID_OPTION = "Invalid option. Please try again."
 }

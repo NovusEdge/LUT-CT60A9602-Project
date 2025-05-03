@@ -10,6 +10,8 @@ import scala.io.Source
 import scala.util.{Failure, Success, Try}
 import ujson.{Value => UjsonValue, Obj, Arr, write, read}
 import java.io._
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object ProjectFileIO {
 	def CacheDataToFile(filePath: String): Map[String, List[EnergyData]] = {
@@ -24,9 +26,14 @@ object ProjectFileIO {
 
 		val fetchedData = energyDataTypes.map { sourceType =>
 			val data = GetEnergyData(sourceType)
-			Thread.sleep(2000)
-			println(s"Fetched updated date for $sourceType")
-			(sourceType.toString(), List(data))
+			if (data.getEnergyData.isEmpty) {
+				println(s"No data found for $sourceType")
+				return Map.empty[String, List[EnergyData]]
+			} else {
+				Thread.sleep(2000)
+				println(s"Fetched updated date for $sourceType")
+				(sourceType.toString(), List(data))
+			}
 		}.toMap
 
 		writeDataToJSON(fetchedData, filePath);
@@ -165,6 +172,17 @@ object ProjectFileIO {
 		case e: Exception =>
 			println(s"Failed to parse JSON object: ${e.getMessage}")
 			None
+		}
+	}
+
+	def formatTimestamp(timestamp: String): (String, String) = {
+		try {
+			val parsedTimestamp = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_DATE_TIME)
+			val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+			val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+			(parsedTimestamp.format(dateFormatter), parsedTimestamp.format(timeFormatter))
+		} catch {
+			case _: Exception => ("Invalid date", "Invalid time")
 		}
 	}
 }

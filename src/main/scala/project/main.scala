@@ -35,15 +35,22 @@ object Main extends App {
 				} else {
 					cachedData.foreach { case (sourceType, dataList) =>
 						println(s"Source Type: $sourceType")
-						dataList.foreach { data =>
-							println(data)
+						dataList.foreach { data => {
+								val formattedTime = formatTimestamp(data.getTimestamp)
+								println(s"\tDate: ${formattedTime._1}")
+								println(s"\tTime: ${formattedTime._2}")
+								println(s"\tUnit: ${data.getUnit}")
+								data.getEnergyData.foreach { case (key, values) =>
+									println(s"\t$key: ${values.mkString(", ")}")
+								}
+								println()
+							}
 						}
 					}
 				}
 				mainloop()
 			}
 			case "3" => { 
-				// Just display the statistics for all data present; use fetchedData
 				val cachedData = GetCachedData(filePath)
 				if (cachedData.isEmpty) {
 					println("No data found in the cache.")
@@ -53,14 +60,16 @@ object Main extends App {
 						dataList.foreach { data =>
 							val stats = data.calculateStatistics()
 							stats.foreach { case (key, values) =>
-								println(s"$key: ${values.mkString(", ")}")
+								println(s"$key: ${values.mkString("\n\t")}")
 							}
 						}
+
+						println()
 					}
 				}
 				mainloop()
 			}
-			case "4" => {
+			case "0" => {
 				println("Exiting the program.")
 				return
 			}

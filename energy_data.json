@@ -1,143 +1,143 @@
 {
-  "Wind": [
-    {
-      "timestamp": "2025-05-04T20:45:00.000Z",
-      "sourceType": "Wind",
-      "energyData": {
-        "Total Wind Power Generation": [
-          3604.8,
-          3601.2,
-          3597.7,
-          3594.2,
-          3574.9,
-          3570.1,
-          3571.3,
-          3575.6,
-          3532.6,
-          3536.4
-        ]
-      },
-      "unit": "MWh/h"
-    }
-  ],
-  "WindCapacity": [
-    {
-      "timestamp": "2025-05-03T10:00:00.000Z",
-      "sourceType": "WindCapacity",
-      "energyData": {
-        "Total Wind Power Generation Capacity": [
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8,
-          8508.8
-        ]
-      },
-      "unit": "MW"
-    }
-  ],
-  "Consumption": [
-    {
-      "timestamp": "2025-05-04T20:45:00.000Z",
-      "sourceType": "Consumption",
-      "energyData": {
-        "Total Consumption": [
-          9462.2,
-          9461.3,
-          9460.3,
-          9459.4,
-          9459.4,
-          9455.2,
-          9452.3,
-          9448.1,
-          9261,
-          9256.7
-        ]
-      },
-      "unit": "MWh/h"
-    }
-  ],
-  "Surplus": [
-    {
-      "timestamp": "2025-04-30T23:00:00.000Z",
-      "sourceType": "Surplus",
-      "energyData": {
-        "Wind power": [
-          496.845
-        ],
-        "Wave power": [
-          0
-        ],
-        "Other production": [
-          500.657
-        ],
-        "Hydropower": [
-          8100.539
-        ],
-        "Gas turbine": [
-          533.905
-        ],
-        "Solar power": [
-          1693.031
-        ],
-        "Biopower": [
-          611.828
-        ],
-        "Diesel engine": [
-          0
-        ],
-        "Combined production": [
-          0
-        ]
-      },
-      "unit": "KWH"
-    }
-  ],
-  "SolarCapacity": [
-    {
-      "timestamp": "2025-05-03T10:00:00.000Z",
-      "sourceType": "SolarCapacity",
-      "energyData": {
-        "Total Solar Power Generation Capacity": [
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1,
-          1265.1
-        ]
-      },
-      "unit": "MW"
-    }
-  ],
-  "Solar": [
-    {
-      "timestamp": "2025-05-04T20:45:00.000Z",
-      "sourceType": "Solar",
-      "energyData": {
-        "Total Solar Power Generation": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "unit": "MWh/h"
-    }
-  ]
+    "Wind": [
+        {
+            "timestamp": "2025-05-04T20:45:00.000Z",
+            "sourceType": "Wind",
+            "energyData": {
+                "Total Wind Power Generation": [
+                    3604.8,
+                    3601.2,
+                    3597.7,
+                    3594.2,
+                    3574.9,
+                    3570.1,
+                    3571.3,
+                    3575.6,
+                    3532.6,
+                    3536.4
+                ]
+            },
+            "unit": "MWh/h"
+        }
+    ],
+    "WindCapacity": [
+        {
+            "timestamp": "2025-05-03T11:00:00.000Z",
+            "sourceType": "WindCapacity",
+            "energyData": {
+                "Total Wind Power Generation Capacity": [
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8,
+                    8508.8
+                ]
+            },
+            "unit": "MW"
+        }
+    ],
+    "Consumption": [
+        {
+            "timestamp": "2025-05-04T20:45:00.000Z",
+            "sourceType": "Consumption",
+            "energyData": {
+                "Total Consumption": [
+                    9462.2,
+                    9461.3,
+                    9460.3,
+                    9459.4,
+                    9459.4,
+                    9455.2,
+                    9452.3,
+                    9448.1,
+                    9261,
+                    9256.7
+                ]
+            },
+            "unit": "MWh/h"
+        }
+    ],
+    "Surplus": [
+        {
+            "timestamp": "2025-04-30T23:00:00.000Z",
+            "sourceType": "Surplus",
+            "energyData": {
+                "Wind power": [
+                    496.845
+                ],
+                "Wave power": [
+                    0
+                ],
+                "Other production": [
+                    500.657
+                ],
+                "Hydropower": [
+                    8100.539
+                ],
+                "Gas turbine": [
+                    533.905
+                ],
+                "Solar power": [
+                    1693.031
+                ],
+                "Biopower": [
+                    611.828
+                ],
+                "Diesel engine": [
+                    0
+                ],
+                "Combined production": [
+                    0
+                ]
+            },
+            "unit": "KWH"
+        }
+    ],
+    "SolarCapacity": [
+        {
+            "timestamp": "2025-05-03T11:00:00.000Z",
+            "sourceType": "SolarCapacity",
+            "energyData": {
+                "Total Solar Power Generation Capacity": [
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1,
+                    1265.1
+                ]
+            },
+            "unit": "MW"
+        }
+    ],
+    "Solar": [
+        {
+            "timestamp": "2025-05-04T20:45:00.000Z",
+            "sourceType": "Solar",
+            "energyData": {
+                "Total Solar Power Generation": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "unit": "MWh/h"
+        }
+    ]
 }

@@ -26,6 +26,10 @@ class EnergyData(
         s"EnergyData(timestamp=$timestamp, sourceType=$sourceType, energyData=$energyData, unit=$unit)"
     }
 
+	def isEmpty: Boolean = {
+		energyData.isEmpty
+	}
+
     def calculateStatistics(): Map[String, Map[String, Double]] = {
         energyData.map { case (key, values) =>
             val mean = Statistics.mean(values)
