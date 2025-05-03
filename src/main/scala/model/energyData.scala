@@ -3,6 +3,8 @@ package model
 import api_client.FingridApiClient
 import scala.util.{Failure, Success, Try}
 
+import scala.math;
+
 object SourceType extends Enumeration {
     type SourceType = Value
 
@@ -38,7 +40,11 @@ class EnergyData(
                 "Mode" -> mode,
                 "Range" -> range,
                 "Midrange" -> midrange
-            )
+            ).mapValues(
+				value => BigDecimal(value)
+							.setScale(2, BigDecimal.RoundingMode.HALF_UP)
+							.toDouble
+				).toMap
         }
     }
 }

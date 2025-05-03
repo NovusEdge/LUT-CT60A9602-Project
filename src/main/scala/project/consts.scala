@@ -28,14 +28,10 @@ object consts {
 
     val MAIN_MENU = 
         """
-          |1. View API datasets
-          |2. Fetch Data
-          |3. Show data statistics
-          |4. Store data to file
-          |5. Read data from file
-          |6. Show stored data
-          |0. Exit
-          |""".stripMargin
+        |1. Fetch and store data
+        |2. Retrieve stored data
+        |3. Display Statistics
+        |4. Exit""".stripMargin
 
     val DATASET_MENU =
         """
@@ -44,8 +40,7 @@ object consts {
           |3. Wind Generation Forecast
           |4. Solar Generation Forecast
           |5. Solar Production Capacity
-          |6. Wind Production Capacity
-          |""".stripMargin
+          |6. Wind Production Capacity""".stripMargin
 
     val E_INVALID_OPTION = "Invalid option. Please try again."
 }
