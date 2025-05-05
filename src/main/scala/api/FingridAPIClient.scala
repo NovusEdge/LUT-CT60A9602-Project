@@ -113,7 +113,15 @@ object FingridApiClient {
             }
 
             Try(response.text()) match {
-                case Success(data) => Right(data)
+                case Success(data) => {
+					// If all data is empty or 0.0 then print a warning
+					val parsedData = ujson.read(data)
+					val allData = parsedData("data").arr.map(item => item("value").num).toList
+					if (allData.forall(_ == 0.0)) {
+						println(s"Warning: All data values are 0.0 for dataset ID: $datasetId")
+					}
+					Right(data)
+				}
                 case Failure(exception) => Left(s"Failed to fetch data: ${exception.getMessage}")
             }
         } catch {
