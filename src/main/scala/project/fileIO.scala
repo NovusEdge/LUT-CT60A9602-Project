@@ -13,7 +13,19 @@ import java.io._
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+/**
+ * Provides file I/O operations for energy data, including caching, reading, and writing.
+ *
+ * This object handles the persistence of energy data to and from JSON files,
+ * as well as data format conversions between the application model and JSON.
+ */
 object ProjectFileIO {
+	/**
+	 * Fetches energy data from the API and caches it to a file.
+	 *
+	 * @param filePath Path to the file where data will be cached
+	 * @return A map containing the fetched energy data by source type
+	 */
 	def CacheDataToFile(filePath: String): Map[String, List[EnergyData]] = {
 		val energyDataTypes = List(
 			Surplus,
@@ -41,10 +53,23 @@ object ProjectFileIO {
 		return fetchedData;
 	}
 
+	/**
+	 * Retrieves cached energy data from a file.
+	 *
+	 * @param filePath Path to the file containing cached data
+	 * @return A map containing the cached energy data by source type
+	 */
 	def GetCachedData(filePath: String): Map[String, List[EnergyData]] = {
 		readDataFromJSON(filePath).getOrElse(Map.empty[String, List[EnergyData]])
 	}
 
+	/**
+	 * Writes energy data to a JSON file.
+	 *
+	 * @param data Map of energy data to write, keyed by source type
+	 * @param filePath Path to the file where data will be written
+	 * @return A Try containing Unit if successful, or an exception if failed
+	 */
 	def writeDataToJSON(
 		data: Map[String, List[EnergyData]],
 		filePath: String
@@ -81,6 +106,13 @@ object ProjectFileIO {
 		}
 	}
 
+	/**
+	 * Reads energy data from a JSON file.
+	 *
+	 * @param filePath Path to the file containing JSON data
+	 * @return A Try containing a map of energy data by source type if successful,
+	 *         or an exception if failed
+	 */
 	def readDataFromJSON(filePath: String): Try[Map[String, List[EnergyData]]] =
 		Try {
 		val source = Source.fromFile(filePath)
@@ -119,6 +151,12 @@ object ProjectFileIO {
 		}
 		}
 
+	/**
+	 * Converts an energy data entry to JSON format.
+	 *
+	 * @param entry A tuple containing the source type and a list of energy data
+	 * @return A ujson.Value representing the JSON format of the energy data
+	 */
 	def dataToJson(entry: (String, List[EnergyData])): ujson.Value = {
 		val (sourceType, dataList) = entry
 		ujson.Obj(
@@ -139,6 +177,13 @@ object ProjectFileIO {
 		)
 	}
 
+	/**
+	 * Converts JSON data to an energy data entry.
+	 *
+	 * @param json A ujson.Value containing energy data in JSON format
+	 * @return An Option containing a tuple of source type and a list of energy data if successful,
+	 *         or None if parsing failed
+	 */
 	def jsonToData(json: ujson.Value): Option[(String, List[EnergyData])] = {
 		try {
 		val sourceType = json("type").str
@@ -175,6 +220,12 @@ object ProjectFileIO {
 		}
 	}
 
+	/**
+	 * Formats a timestamp string into a date and time string pair.
+	 *
+	 * @param timestamp The timestamp string in ISO format
+	 * @return A tuple containing the formatted date and time strings
+	 */
 	def formatTimestamp(timestamp: String): (String, String) = {
 		try {
 			val parsedTimestamp = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_DATE_TIME)
